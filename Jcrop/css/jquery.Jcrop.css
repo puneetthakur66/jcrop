@@ -1,12 +1,12 @@
 /* Fixes issue here http://code.google.com/p/jcrop/issues/detail?id=1 */
-.jcrop-holder { 
+.jcrop-holder {
   text-align: left;
 }
 .jcrop-vline,
 .jcrop-hline {
-	background: white url('Jcrop.gif') top left repeat;
-	font-size: 0;
-	position: absolute;
+  background: white url('Jcrop.gif') top left repeat;
+  font-size: 0;
+  position: absolute;
 }
 .jcrop-vline {
   height: 100%;
@@ -17,13 +17,13 @@
   width: 100%;
 }
 .jcrop-handle {
-	font-size: 1px;
-	width: 7px !important;
-	height: 7px !important;
-	border: 1px #eee solid;
-	background-color: #333;
-	*width: 9px;
-	*height: 9px;
+  font-size: 1px;
+  width: 7px !important;
+  height: 7px !important;
+  border: 1px #eee solid;
+  background-color: #333;
+  *width: 9px;
+  *height: 9px;
 }
 .jcrop-tracker {
   width: 100%;
@@ -31,13 +31,13 @@
 }
 .custom .jcrop-vline,
 .custom .jcrop-hline {
-	background: yellow;
+  background: yellow;
 }
 .custom .jcrop-handle {
-	border-color: black;
-	background-color: #C7BB00;
-	-moz-border-radius: 3px;
-	-webkit-border-radius: 3px;
+  border-color: black;
+  background-color: #c7bb00;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
 }
 
 /* gameguyz crop css style */

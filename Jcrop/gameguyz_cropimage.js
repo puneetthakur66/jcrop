@@ -1,4 +1,5 @@
 (function ($) {
+
 Drupal.behaviors.gameguyz_cropimage = {
   attach: function (context, settings) {
     // wait till 'fadeIn' effect ends (defined in filefield_widget.inc)
