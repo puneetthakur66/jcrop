@@ -1,5 +1,6 @@
 <?php
 /**
+ * @file
  * Gameugyz Image crop,custom form image crop
  * added by deapge@gmail.com
  */
@@ -8,8 +9,9 @@
  * Implements hook_theme().
  */
 function gameguyz_cropimage_theme() {
-  return array('gameguyz_cropimage_preview_crop' => array(// Image Crop Preview
+  $item = array('gameguyz_cropimage_preview_crop' => array(// Image Crop Preview
   'render element' => 'element', ), );
+  return $item;
 }
 
 /**
@@ -37,7 +39,7 @@ function theme_gameguyz_cropimage_preview_crop($variables) {
     $settings[$element['#id']]['preview']['orig_width'] = $file_info['width'];
     $settings[$element['#id']]['preview']['orig_height'] = $file_info['height'];
     $crop_info = variable_get('gameguyz_cropimage_info', array());
-    if (!empty($crop_info[$current_image_file -> fid])) { //
+    if (!empty($crop_info[$current_image_file -> fid])) {//
       $settings[$element['#id']]['setselect'] = array_values($crop_info[$current_image_file -> fid]);
     }
     // crop info <<<
@@ -64,7 +66,7 @@ function theme_gameguyz_cropimage_preview_crop($variables) {
 }
 
 /**
- * process function 
+ * process function
  * define at your custom form.
  */
 function gameguyz_cropimage_process($element, &$form_state) {
@@ -75,13 +77,13 @@ function gameguyz_cropimage_process($element, &$form_state) {
   $element['#file'] = $fid ? file_load($fid) : FALSE;
   $element['#tree'] = TRUE;
   $element['#extended'] = true;
-  $element['crop'] = array('#type' => 'fieldset', '#attributes' => array('style' => 'display:none;') );
-  $element['crop']['x'] = array('#type' => 'textfield', '#title' => 'x' );
-  $element['crop']['y'] = array('#type' => 'textfield', '#title' => 'y' );
-  $element['crop']['x2'] = array('#title' => 'x2', '#type' => 'textfield' );
-  $element['crop']['y2'] = array('#title' => 'y2', '#type' => 'textfield' );
-  $element['crop']['w'] = array('#title' => 'w', '#type' => 'textfield' );
-  $element['crop']['h'] = array('#title' => 'h', '#type' => 'textfield' );
+  $element['crop'] = array('#type' => 'fieldset', '#attributes' => array('style' => 'display:none;'));
+  $element['crop']['x'] = array('#type' => 'textfield', '#title' => 'x');
+  $element['crop']['y'] = array('#type' => 'textfield', '#title' => 'y');
+  $element['crop']['x2'] = array('#title' => 'x2', '#type' => 'textfield');
+  $element['crop']['y2'] = array('#title' => 'y2', '#type' => 'textfield');
+  $element['crop']['w'] = array('#title' => 'w', '#type' => 'textfield');
+  $element['crop']['h'] = array('#title' => 'h', '#type' => 'textfield');
   if (isset($element['remove_button'])) {
     $element['remove_button']['#submit'][] = 'gameguyz_cropimage_remove';
     $element['remove_button']['#submit'] = array_reverse($element['remove_button']['#submit']);
@@ -101,7 +103,7 @@ function gameguyz_cropimage_process($element, &$form_state) {
  * setselect             Set an initial selection area  [x,y,x2,y2]
  * Please change these settings
  */
-function gameguyz_backstage_beauty_settings_process($element, &$form_state, $form) {
+function gameguyz_cropimage_beauty_settings_process($element, &$form_state, $form) {
   // Left region crop box size
   $settings['box'] = array('ratio' => 238 / 160, 'box_width' => 500, 'box_height' => 300);
   // Right region preview box size

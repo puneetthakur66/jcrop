@@ -14,7 +14,8 @@ Gameguyz Image Crop:
       '#type' => 'managed_file',
       '#default_value' => variable_get('crop_image_test_fid', ''),
       '#upload_location' => 'public://',
-      '#process' => array_merge($element_info['#process'], array('gameguyz_cropimage_process', 'gameguyz_backstage_beauty_settings_process')),
+      '#process' => array_merge($element_info['#process'], 
+        array('gameguyz_cropimage_process', 'gameguyz_cropimage_beauty_settings_process')),
       '#file_value_callbacks' => array('gameguyz_cropimage_widget_value'),
     );
   }
@@ -27,4 +28,4 @@ Gameguyz Image Crop:
   }
 
 >4. Change crop box size: gameguyz_cropimage/gameguyz_cropimage.module 
-   gameguyz_backstage_beauty_settings_process()
+   gameguyz_cropimage_beauty_settings_process()

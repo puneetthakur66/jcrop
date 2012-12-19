@@ -1,14 +1,21 @@
 /* Fixes issue here http://code.google.com/p/jcrop/issues/detail?id=1 */
-.jcrop-holder { text-align: left; }
-
-.jcrop-vline, .jcrop-hline
-{
+.jcrop-holder { 
+  text-align: left;
+}
+.jcrop-vline,
+.jcrop-hline {
+	background: white url('Jcrop.gif') top left repeat;
 	font-size: 0;
 	position: absolute;
-	background: white url('Jcrop.gif') top left repeat;
 }
-.jcrop-vline { height: 100%; width: 1px !important; }
-.jcrop-hline { width: 100%; height: 1px !important; }
+.jcrop-vline {
+  height: 100%;
+  width: 1px !important;
+}
+.jcrop-hline {
+  height: 1px !important;
+  width: 100%;
+}
 .jcrop-handle {
 	font-size: 1px;
 	width: 7px !important;
@@ -18,16 +25,15 @@
 	*width: 9px;
 	*height: 9px;
 }
-
-.jcrop-tracker { width: 100%; height: 100%; }
-
+.jcrop-tracker {
+  width: 100%;
+  height: 100%;
+}
 .custom .jcrop-vline,
-.custom .jcrop-hline
-{
+.custom .jcrop-hline {
 	background: yellow;
 }
-.custom .jcrop-handle
-{
+.custom .jcrop-handle {
 	border-color: black;
 	background-color: #C7BB00;
 	-moz-border-radius: 3px;
@@ -35,7 +41,16 @@
 }
 
 /* gameguyz crop css style */
-div.gameguyz_crop_image{float:left;width:100%;}
-div.gameguyz_cropimage{float:left;}
-div.gameguyz_cropimage_preview{float:right;border:1px solid #e0e0e0;}
-div.gameguyz_cropimage_crop_size{text-align:center;}
+div.gameguyz_crop_image{
+  float:left;width:100%;
+}
+div.gameguyz_cropimage{
+  float:left;
+}
+div.gameguyz_cropimage_preview{
+  float:right;
+  border:1px solid #e0e0e0;
+}
+div.gameguyz_cropimage_crop_size{
+  text-align:center;
+}

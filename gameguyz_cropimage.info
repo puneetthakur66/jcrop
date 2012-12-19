@@ -1,4 +1,3 @@
-; $Id: gameguyz_cropimage.info $
 name = Gameguyz Image Crop
 description = "Image crop in custom form."
 package = Image
