@@ -1,0 +1,203 @@
+<?php
+/**
+ * Gameugyz Image crop,custom form image crop
+ * added by deapge@gmail.com
+ */
+
+/**
+ * Implements hook_theme().
+ */
+function gameguyz_cropimage_theme() {
+  return array('gameguyz_cropimage_preview_crop' => array(// Image Crop Preview
+  'render element' => 'element', ), );
+}
+
+/**
+ * After upload,display crop box
+ */
+function theme_gameguyz_cropimage_preview_crop($variables) {
+  $element = $variables['element'];
+  $settings[$element['#id']] = $element['#values']['settings'][$element['#id']];
+  $output = '<div class="gameguyz_crop_image">';
+  $base = drupal_render_children($element);
+  // renders element as usual
+  if ($element['fid']['#value'] != 0) {
+    drupal_add_css(drupal_get_path('module', 'gameguyz_cropimage') . '/Jcrop/css/jquery.Jcrop.css');
+    drupal_add_js(drupal_get_path('module', 'gameguyz_cropimage') . '/Jcrop/js/jquery.Jcrop.js');
+    drupal_add_js(drupal_get_path('module', 'gameguyz_cropimage') . '/Jcrop/gameguyz_cropimage.js');
+    // get orig image info
+    $orig_image_file = _gameguyz_cropimage_file_to_crop($element['fid']['#value']);
+    $orig_image_path = file_create_url($orig_image_file -> uri);
+    // get new image info
+    $current_image_file = file_load($element['fid']['#value']);
+    $current_image_path = file_create_url($current_image_file -> uri);
+    // crop info >>>
+    $file_info = image_get_info($orig_image_file -> uri);
+    // orig image
+    $settings[$element['#id']]['preview']['orig_width'] = $file_info['width'];
+    $settings[$element['#id']]['preview']['orig_height'] = $file_info['height'];
+    $crop_info = variable_get('gameguyz_cropimage_info', array());
+    if (!empty($crop_info[$current_image_file -> fid])) { //
+      $settings[$element['#id']]['setselect'] = array_values($crop_info[$current_image_file -> fid]);
+    }
+    // crop info <<<
+
+    // Left region preview image >>>
+    $output .= '<div class="gameguyz_cropimage">
+    <img src="' . $orig_image_path . '" class="gameguyz_cropimage_cropbox" id="' . $element['#id'] . '_cropbox"/>
+    </div>';
+    // Left region preview image <<<
+    // Right region preview image >>>
+    $output .= '<div style="float:right;">
+		<div class="gameguyz_cropimage_preview" id="' . $element['#id'] . '_cropbox_preview_div" style="width:' . $settings[$element['#id']]['preview']['width'] . 'px;height:' . $settings[$element['#id']]['preview']['height'] . 'px;overflow:hidden;">
+			<img src="' . $orig_image_path . '" id="' . $element['#id'] . '_cropbox_preview_img"/>
+		</div>
+		<div style="clear:both;"></div>
+		<div class="gameguyz_cropimage_crop_size">' . $settings[$element['#id']]['preview']['width'] . 'x' . $settings[$element['#id']]['preview']['height'] . '</div>
+		</div>';
+    // Right region preview image <<<
+  }
+  $output .= '</div><div style="clear:both;"></div>';
+  $output .= $base;
+  drupal_add_js(array('gameguyz_cropimage' => $settings), array('type' => 'setting', 'scope' => 'header', ));
+  return $output;
+}
+
+/**
+ * process function 
+ * define at your custom form.
+ */
+function gameguyz_cropimage_process($element, &$form_state) {
+  $fid = isset($element['#value']['fid']) ? $element['#value']['fid'] : 0;
+  $element['#theme'] = 'gameguyz_cropimage_preview_crop';
+  $element['#file_value_callbacks'][] = 'gameguyz_cropimage_widget_value';
+  $element['#value_callback'] = 'gameguyz_cropimage_widget_value';
+  $element['#file'] = $fid ? file_load($fid) : FALSE;
+  $element['#tree'] = TRUE;
+  $element['#extended'] = true;
+  $element['crop'] = array('#type' => 'fieldset', '#attributes' => array('style' => 'display:none;') );
+  $element['crop']['x'] = array('#type' => 'textfield', '#title' => 'x' );
+  $element['crop']['y'] = array('#type' => 'textfield', '#title' => 'y' );
+  $element['crop']['x2'] = array('#title' => 'x2', '#type' => 'textfield' );
+  $element['crop']['y2'] = array('#title' => 'y2', '#type' => 'textfield' );
+  $element['crop']['w'] = array('#title' => 'w', '#type' => 'textfield' );
+  $element['crop']['h'] = array('#title' => 'h', '#type' => 'textfield' );
+  if (isset($element['remove_button'])) {
+    $element['remove_button']['#submit'][] = 'gameguyz_cropimage_remove';
+    $element['remove_button']['#submit'] = array_reverse($element['remove_button']['#submit']);
+  }
+  return $element;
+}
+
+/**
+ * Define crop info
+ * box['ratio']          Aspect ratio of w/h (e.g. 1 for square)
+ * box['box_width']      left region preview box width
+ * box['box_height']     left region preview box height
+ * preview['width']       right region preview box width
+ * preview['height']      right region preview box height
+ * minimum['width']       Minimum width
+ * minimum['height']      Minimum height
+ * setselect             Set an initial selection area  [x,y,x2,y2]
+ * Please change these settings
+ */
+function gameguyz_backstage_beauty_settings_process($element, &$form_state, $form) {
+  // Left region crop box size
+  $settings['box'] = array('ratio' => 238 / 160, 'box_width' => 500, 'box_height' => 300);
+  // Right region preview box size
+  $settings['preview'] = array('width' => 238, 'height' => 160);
+  // crop image minimum size
+  $settings['minimum'] = array('width' => 23.8, 'height' => 16);
+  // crop box select area [x,y,x2,y2]
+  $settings['setselect'] = array(0, 0, 238, 160);
+  $element['#values']['settings'][$element['#id']] = $settings;
+  return $element;
+}
+
+/**
+ * value callback
+ *
+ * Registered by theme_gameguyz_cropimage_preview_crop()
+ */
+function gameguyz_cropimage_widget_value(&$element, &$input, $form_state) {
+  if (!empty($input['fid'])) {
+    // get crop and scale info
+    $crop = $input['crop'];
+    $src = file_load($input['fid']);
+    // orig upload image
+    $file_to_crop = _gameguyz_cropimage_file_to_crop($src -> fid);
+    // Copy the original aside, for future cropping
+    if ($file_to_crop -> fid == $src -> fid && $orig_uri = file_unmanaged_copy($src -> uri, $src -> uri)) {
+      $orig = clone $src;
+      $orig -> fid = 0;
+      $orig -> uri = $orig_uri;
+      $orig -> filename = basename($orig_uri);
+      $orig -> status = 1;
+      $orig = file_save($orig);
+      file_usage_add($orig, 'gameguyz_cropimage', 'file', $src -> fid);
+    }
+    // do the crop. @todo check for errors
+    if (_gameguyz_cropimage_resize(drupal_realpath($file_to_crop -> uri), $crop, NULL, drupal_realpath($src -> uri))) {
+      // insert crop info for this image in imagefield_crop_info variable
+      $crop_info = variable_get('gameguyz_cropimage_info', array());
+      $crop['fid_new'] = $src -> fid;
+      //new fid
+      $crop_info[$src -> fid] = $crop;
+      variable_set('gameguyz_cropimage_info', $crop_info);
+      // Remove cached versions of the cropped image.
+      image_path_flush($src -> uri);
+    }
+  }
+}
+
+/**
+ * removing image file
+ */
+function gameguyz_cropimage_remove($form, &$form_state) {
+  $parents = array_slice($form_state['triggering_element']['#array_parents'], 0, -1);
+  $fid = drupal_array_get_nested_value($form_state['values'], $parents);
+  if (!is_array($fid) && $fid > 0) {
+    $orig = _gameguyz_cropimage_file_to_crop($fid);
+    if ($orig -> fid != $fid) {
+      file_usage_delete($orig, 'gameguyz_cropimage');
+      file_delete($orig);
+      $crop_info = variable_get('gameguyz_cropimage_info', array());
+      unset($crop_info[$fid]);
+      variable_set('gameguyz_cropimage_info', $crop_info);
+    }
+  }
+}
+
+/**
+ * Crop the image and resize it
+ */
+function _gameguyz_cropimage_resize($src, $crop = NULL, $scale = NULL, $dst = NULL) {
+  //dpm(__FUNCTION__);
+  $image = image_load($src);
+  if ($image) {
+    $result = TRUE;
+    if ($crop) {
+      $result = $result && image_crop($image, $crop['x'], $crop['y'], $crop['w'], $crop['h']);
+    }
+
+    if ($scale) {
+      $result = $result && image_scale_and_crop($image, $scale['w'], $scale['h']);
+    }
+
+    $result = $result && image_save($image, $dst ? $dst : $src);
+    return $result;
+  }
+  return FALSE;
+}
+
+/**
+ * get file usage info
+ */
+function _gameguyz_cropimage_file_to_crop($fid) {
+  // Try to find the original file for this image
+  $result = db_select('file_usage', 'fu') -> fields('fu', array('fid')) -> condition('module', 'gameguyz_cropimage') -> condition('type', 'file') -> condition('id', $fid) -> condition('count', 0, '>') -> range(0, 1) -> execute();
+  if ($row = $result -> fetch()) {
+    $fid = $row -> fid;
+  }
+  return file_load($fid);
+}

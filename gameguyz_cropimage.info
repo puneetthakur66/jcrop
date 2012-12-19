@@ -1,0 +1,8 @@
+; $Id: gameguyz_cropimage.info $
+name = Gameguyz Image Crop
+description = "Image crop in custom form."
+package = Image
+core = 7.x
+
+; Information added by deapge@gmail.com at 2012-12-19
+core = "7.x"
