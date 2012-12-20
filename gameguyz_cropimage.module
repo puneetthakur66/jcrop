@@ -109,7 +109,7 @@ function gameguyz_cropimage_beauty_settings_process($element, &$form_state, $for
   $settings['box'] = array(
     'ratio' => 238 / 160,
     'box_width' => 500,
-    'box_height' => 300
+    'box_height' => 300,
   );
   // Right region preview box size.
   $settings['preview'] = array('width' => 238, 'height' => 160);
