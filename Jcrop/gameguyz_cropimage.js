@@ -7,7 +7,7 @@ Drupal.behaviors.gameguyz_cropimage = {
     //attachJcrop(context);
 
     function attachJcrop(context) {
-    	//console.log($('.gameguyz_backstage_cropbox', context));
+      //console.log($('.gameguyz_backstage_cropbox', context));
       if ($('.gameguyz_cropimage_cropbox', context).length == 0) {
         // no cropbox, probably an image upload (http://drupal.org/node/366296)
         return;
@@ -32,7 +32,7 @@ Drupal.behaviors.gameguyz_cropimage = {
             }
             var rx = settings.gameguyz_cropimage[id].preview.width / c.w;
             var ry = settings.gameguyz_cropimage[id].preview.height / c.h;
-            $('#'+id+'_cropbox_preview_img').css({
+            $('#' + id + '_cropbox_preview_img').css({
               width: Math.round(rx * settings.gameguyz_cropimage[id].preview.orig_width) + 'px',
               height: Math.round(ry * settings.gameguyz_cropimage[id].preview.orig_height) + 'px',
               marginLeft: '-' + Math.round(rx * c.x) + 'px',
@@ -42,28 +42,29 @@ Drupal.behaviors.gameguyz_cropimage = {
             // set coords
             //var coord_prefix_id = id.substring(0, self_id.indexOf('-fid')) + '-crop';
             var coord_prefix_id = id + '-crop';
-            jQuery('#'+coord_prefix_id+'-x').val(c.x);
-						jQuery('#'+coord_prefix_id+'-y').val(c.y);
-						jQuery('#'+coord_prefix_id+'-x2').val(c.x2);
-						jQuery('#'+coord_prefix_id+'-y2').val(c.y2);
-						jQuery('#'+coord_prefix_id+'-w').val(c.w);
-						jQuery('#'+coord_prefix_id+'-h').val(c.h);
+            jQuery('#' + coord_prefix_id + '-x').val(c.x);
+					  jQuery('#' + coord_prefix_id + '-y').val(c.y);
+					  jQuery('#' + coord_prefix_id + '-x2').val(c.x2);
+					  jQuery('#' + coord_prefix_id + '-y2').val(c.y2);
+					  jQuery('#' + coord_prefix_id + '-w').val(c.w);
+					  jQuery('#' + coord_prefix_id + '-h').val(c.h);
           },
           onSelect: function(c) {
-          	this.onChange(c);
+            this.onChange(c);
           },
           aspectRatio: settings.gameguyz_cropimage[id].box.ratio,
           boxWidth: settings.gameguyz_cropimage[id].box.box_width,
           boxHeight: settings.gameguyz_cropimage[id].box.box_height,
-          minSize: [Drupal.settings.gameguyz_cropimage[id].minimum.width, Drupal.settings.gameguyz_cropimage[id].minimum.height], 
+          minSize: [Drupal.settings.gameguyz_cropimage[id].minimum.width, 
+                  Drupal.settings.gameguyz_cropimage[id].minimum.height],
           /*
            * Setting the select here calls onChange event, and we lose the original image visibility
           */
           setSelect: [
-          	parseInt(Drupal.settings.gameguyz_cropimage[id].setselect[0]),
-          	parseInt(Drupal.settings.gameguyz_cropimage[id].setselect[1]),
-          	parseInt(Drupal.settings.gameguyz_cropimage[id].setselect[2]),
-          	parseInt(Drupal.settings.gameguyz_cropimage[id].setselect[3])
+            parseInt(Drupal.settings.gameguyz_cropimage[id].setselect[0]),
+            parseInt(Drupal.settings.gameguyz_cropimage[id].setselect[1]),
+            parseInt(Drupal.settings.gameguyz_cropimage[id].setselect[2]),
+            parseInt(Drupal.settings.gameguyz_cropimage[id].setselect[3])
           ]
         });
       });

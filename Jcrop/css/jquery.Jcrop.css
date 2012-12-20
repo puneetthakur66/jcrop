@@ -17,11 +17,11 @@
   width: 100%;
 }
 .jcrop-handle {
-  font-size: 1px;
-  width: 7px !important;
-  height: 7px !important;
-  border: 1px #eee solid;
   background-color: #333;
+  border: 1px #eee solid;
+  font-size: 1px;
+  height: 7px !important;
+  width: 7px !important;
   *width: 9px;
   *height: 9px;
 }
@@ -34,23 +34,23 @@
   background: yellow;
 }
 .custom .jcrop-handle {
-  border-color: black;
   background-color: #c7bb00;
+  border-color: black;
   -moz-border-radius: 3px;
   -webkit-border-radius: 3px;
 }
 
 /* gameguyz crop css style */
-div.gameguyz_crop_image{
+div.gameguyz_crop_image {
   float:left;width:100%;
 }
-div.gameguyz_cropimage{
+div.gameguyz_cropimage {
   float:left;
 }
-div.gameguyz_cropimage_preview{
-  float:right;
+div.gameguyz_cropimage_preview {
   border:1px solid #e0e0e0;
+  float:right;
 }
-div.gameguyz_cropimage_crop_size{
+div.gameguyz_cropimage_crop_size {
   text-align:center;
 }
