@@ -36,9 +36,9 @@
     // Sanitize some options {{{
     var obj = obj, opt = opt;
 
-    if ( typeof (obj) !== 'object')
+    if (typeof(obj) !== 'object')
       obj = $(obj)[0];
-    if ( typeof (opt) !== 'object')
+    if (typeof(opt) !== 'object')
       opt = { };
 
     // Some on-the-fly fixes for MSIE...sigh
@@ -120,7 +120,6 @@
       position : 'relative',
       backgroundColor : options.bgColor
     }).insertAfter($origimg).append($img);
-    ;
 
     if (options.addClass)
       $div.addClass(options.addClass);
@@ -266,7 +265,7 @@
         }
 
         // Magic %-)
-        if (xx > x1) {// right side
+        if (xx > x1) { // right side
           if (xx - x1 < min_x) {
             xx = x1 + min_x;
           } else if (xx - x1 > max_x) {
@@ -277,7 +276,7 @@
           } else {
             yy = y1 - (xx - x1) / aspect;
           }
-        } else if (xx < x1) {// left side
+        } else if (xx < x1) { // left side
           if (x1 - xx < min_x) {
             xx = x1 - min_x
           } else if (x1 - xx > max_x) {
@@ -638,7 +637,7 @@
       /*}}}*/
       function animMode(v)/*{{{*/
       {
-        ( animating = v) ? disableHandles() : enableHandles();
+        (animating = v) ? disableHandles() : enableHandles();
       };
       /*}}}*/
       function done()/*{{{*/
@@ -1252,8 +1251,8 @@
       img.src = loadsrc;
     };
     /*}}}*/
-    if ( typeof (options) !== 'object')
-      options = { };
+    if (typeof(options) !== 'object')
+      options = {};
 
     // Iterate over each object, attach Jcrop
     this.each(function() {

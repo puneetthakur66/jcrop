@@ -9,8 +9,9 @@
  * Implements hook_theme().
  */
 function gameguyz_cropimage_theme() {
-  $item = array('gameguyz_cropimage_preview_crop' => array(// Image Crop Preview
-  'render element' => 'element', ), );
+  $item = array();
+  // Image Crop Preview
+  $item['gameguyz_cropimage_preview_crop'] = array('render element' => 'element');
   return $item;
 }
 
