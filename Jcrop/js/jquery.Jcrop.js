@@ -514,7 +514,11 @@
       /*}}}*/
       function moveHandles(c)/*{{{*/
       {
-        var midvert = Math.round((c.h / 2) - hhs), midhoriz = Math.round((c.w / 2) - hhs), north = west = -hhs + 1, east = c.w - hhs, south = c.h - hhs, x, y;
+        var midvert = Math.round((c.h / 2) - hhs),
+          midhoriz = Math.round((c.w / 2) - hhs),
+          north = west = -hhs + 1,
+          east = c.w - hhs,
+          south = c.h - hhs, x, y;
 
         'e' in handle && handle.e.css({
           top : px(midvert),
