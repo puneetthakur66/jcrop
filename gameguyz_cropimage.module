@@ -10,33 +10,33 @@
  */
 function gameguyz_cropimage_theme() {
   $item = array();
-  // Image Crop Preview
+  // Image Crop Preview.
   $item['gameguyz_cropimage_preview_crop'] = array('render element' => 'element');
   return $item;
 }
 
 /**
- * After upload,display crop box
+ * After upload,display crop box.
  */
 function theme_gameguyz_cropimage_preview_crop($variables) {
   $element = $variables['element'];
   $settings[$element['#id']] = $element['#values']['settings'][$element['#id']];
   $output = '<div class="gameguyz_crop_image">';
   $base = drupal_render_children($element);
-  // renders element as usual
+  // Renders element as usual
   if ($element['fid']['#value'] != 0) {
     drupal_add_css(drupal_get_path('module', 'gameguyz_cropimage') . '/Jcrop/css/jquery.Jcrop.css');
     drupal_add_js(drupal_get_path('module', 'gameguyz_cropimage') . '/Jcrop/js/jquery.Jcrop.js');
     drupal_add_js(drupal_get_path('module', 'gameguyz_cropimage') . '/Jcrop/gameguyz_cropimage.js');
-    // get orig image info
+    // Get orig image info
     $orig_image_file = _gameguyz_cropimage_file_to_crop($element['fid']['#value']);
     $orig_image_path = file_create_url($orig_image_file -> uri);
-    // get new image info
+    // Get new image info
     $current_image_file = file_load($element['fid']['#value']);
     $current_image_path = file_create_url($current_image_file -> uri);
-    // crop info >>>
+    // Crop info >>>
     $file_info = image_get_info($orig_image_file -> uri);
-    // orig image
+    // Orig image
     $settings[$element['#id']]['preview']['orig_width'] = $file_info['width'];
     $settings[$element['#id']]['preview']['orig_height'] = $file_info['height'];
     $crop_info = variable_get('gameguyz_cropimage_info', array());
@@ -62,12 +62,13 @@ function theme_gameguyz_cropimage_preview_crop($variables) {
   }
   $output .= '</div><div style="clear:both;"></div>';
   $output .= $base;
-  drupal_add_js(array('gameguyz_cropimage' => $settings), array('type' => 'setting', 'scope' => 'header', ));
+  drupal_add_js(array('gameguyz_cropimage' => $settings), 
+    array('type' => 'setting', 'scope' => 'header'));
   return $output;
 }
 
 /**
- * process function
+ * Process function
  * define at your custom form.
  */
 function gameguyz_cropimage_process($element, &$form_state) {
@@ -77,7 +78,7 @@ function gameguyz_cropimage_process($element, &$form_state) {
   $element['#value_callback'] = 'gameguyz_cropimage_widget_value';
   $element['#file'] = $fid ? file_load($fid) : FALSE;
   $element['#tree'] = TRUE;
-  $element['#extended'] = true;
+  $element['#extended'] = TRUE;
   $element['crop'] = array('#type' => 'fieldset', '#attributes' => array('style' => 'display:none;'));
   $element['crop']['x'] = array('#type' => 'textfield', '#title' => 'x');
   $element['crop']['y'] = array('#type' => 'textfield', '#title' => 'y');
@@ -127,7 +128,7 @@ function gameguyz_cropimage_widget_value(&$element, &$input, $form_state) {
     // get crop and scale info
     $crop = $input['crop'];
     $src = file_load($input['fid']);
-    // orig upload image
+    // Orig upload image
     $file_to_crop = _gameguyz_cropimage_file_to_crop($src -> fid);
     // Copy the original aside, for future cropping
     if ($file_to_crop -> fid == $src -> fid && $orig_uri = file_unmanaged_copy($src -> uri, $src -> uri)) {
@@ -144,7 +145,7 @@ function gameguyz_cropimage_widget_value(&$element, &$input, $form_state) {
       // insert crop info for this image in imagefield_crop_info variable
       $crop_info = variable_get('gameguyz_cropimage_info', array());
       $crop['fid_new'] = $src -> fid;
-      //new fid
+      // new fid
       $crop_info[$src -> fid] = $crop;
       variable_set('gameguyz_cropimage_info', $crop_info);
       // Remove cached versions of the cropped image.
@@ -172,10 +173,10 @@ function gameguyz_cropimage_remove($form, &$form_state) {
 }
 
 /**
- * Crop the image and resize it
+ * Crop the image and resize it.
  */
 function _gameguyz_cropimage_resize($src, $crop = NULL, $scale = NULL, $dst = NULL) {
-  //dpm(__FUNCTION__);
+  // dpm(__FUNCTION__);
   $image = image_load($src);
   if ($image) {
     $result = TRUE;
@@ -199,8 +200,8 @@ function _gameguyz_cropimage_resize($src, $crop = NULL, $scale = NULL, $dst = NU
 function _gameguyz_cropimage_file_to_crop($fid) {
   // Try to find the original file for this image
   $result = db_select('file_usage', 'fu') -> fields('fu', array('fid')) -> condition('module', 'gameguyz_cropimage') -> condition('type', 'file') -> condition('id', $fid) -> condition('count', 0, '>') -> range(0, 1) -> execute();
-  if ($row = $result -> fetch()) {
-    $fid = $row -> fid;
+  if ($row = $result->fetch()) {
+    $fid = $row->fid;
   }
   return file_load($fid);
 }
