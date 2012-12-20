@@ -44,7 +44,6 @@ function theme_gameguyz_cropimage_preview_crop($variables) {
       $settings[$element['#id']]['setselect'] = array_values($crop_info[$current_image_file->fid]);
     }
     // Crop info <<<
-
     // Left region preview image >>>
     $output .= '<div class="gameguyz_cropimage">
     <img src="' . $orig_image_path . '" class="gameguyz_cropimage_cropbox" id="' . $element['#id'] . '_cropbox"/>
@@ -95,24 +94,24 @@ function gameguyz_cropimage_process($element, &$form_state) {
 /**
  * Define crop info.
  * 
- * box['ratio']          Aspect ratio of w/h (e.g. 1 for square)
- * box['box_width']      left region preview box width
- * box['box_height']     left region preview box height
- * preview['width']       right region preview box width
- * preview['height']      right region preview box height
- * minimum['width']       Minimum width
- * minimum['height']      Minimum height
- * setselect             Set an initial selection area  [x,y,x2,y2]
+ * box['ratio']---------Aspect ratio of w/h (e.g. 1 for square)
+ * box['box_width']-----eft region preview box width
+ * box['box_height']----left region preview box height
+ * preview['width']-----right region preview box width
+ * preview['height']----right region preview box height
+ * minimum['width']-----Minimum width
+ * minimum['height']----Minimum height
+ * setselect------------Set an initial selection area  [x,y,x2,y2]
  * Please change these settings.
  */
 function gameguyz_cropimage_beauty_settings_process($element, &$form_state, $form) {
-  // Left region crop box size
+  // Left region crop box size.
   $settings['box'] = array('ratio' => 238 / 160, 'box_width' => 500, 'box_height' => 300);
-  // Right region preview box size
+  // Right region preview box size.
   $settings['preview'] = array('width' => 238, 'height' => 160);
-  // crop image minimum size
+  // Crop image minimum size.
   $settings['minimum'] = array('width' => 23.8, 'height' => 16);
-  // crop box select area [x,y,x2,y2]
+  // Crop box select area [x,y,x2,y2].
   $settings['setselect'] = array(0, 0, 238, 160);
   $element['#values']['settings'][$element['#id']] = $settings;
   return $element;
@@ -129,7 +128,7 @@ function gameguyz_cropimage_widget_value(&$element, &$input, $form_state) {
     $crop = $input['crop'];
     $src = file_load($input['fid']);
     // Orig upload image.
-    $file_to_crop = _gameguyz_cropimage_file_to_crop($src -> fid);
+    $file_to_crop = _gameguyz_cropimage_file_to_crop($src->fid);
     // Copy the original aside, for future cropping.
     if ($file_to_crop->fid == $src->fid && $orig_uri = file_unmanaged_copy($src->uri, $src->uri)) {
       $orig = clone $src;
@@ -199,7 +198,14 @@ function _gameguyz_cropimage_resize($src, $crop = NULL, $scale = NULL, $dst = NU
  */
 function _gameguyz_cropimage_file_to_crop($fid) {
   // Try to find the original file for this image.
-  $result = db_select('file_usage', 'fu') -> fields('fu', array('fid')) -> condition('module', 'gameguyz_cropimage') -> condition('type', 'file') -> condition('id', $fid) -> condition('count', 0, '>') -> range(0, 1) -> execute();
+  $result = db_select('file_usage', 'fu')
+    ->fields('fu', array('fid'))
+    ->condition('module', 'gameguyz_cropimage')
+    ->condition('type', 'file')
+    ->condition('id', $fid)
+    ->condition('count', 0, '>')
+    ->range(0, 1)
+    ->execute();
   if ($row = $result->fetch()) {
     $fid = $row->fid;
   }
