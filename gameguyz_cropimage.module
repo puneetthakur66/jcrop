@@ -93,7 +93,7 @@ function gameguyz_cropimage_process($element, &$form_state) {
 
 /**
  * Define crop info.
- * 
+ *
  * box['ratio']---------Aspect ratio of w/h (e.g. 1 for square)
  * box['box_width']-----eft region preview box width
  * box['box_height']----left region preview box height
@@ -106,7 +106,11 @@ function gameguyz_cropimage_process($element, &$form_state) {
  */
 function gameguyz_cropimage_beauty_settings_process($element, &$form_state, $form) {
   // Left region crop box size.
-  $settings['box'] = array('ratio' => 238 / 160, 'box_width' => 500, 'box_height' => 300);
+  $settings['box'] = array(
+    'ratio' => 238 / 160,
+    'box_width' => 500,
+    'box_height' => 300
+  );
   // Right region preview box size.
   $settings['preview'] = array('width' => 238, 'height' => 160);
   // Crop image minimum size.
