@@ -1,5 +1,5 @@
 name = Gameguyz Image Crop
-description = "Image crop in custom form."
+description = Image crop in custom form.
 package = Image
 core = 7.x
 
