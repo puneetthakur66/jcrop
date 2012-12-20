@@ -43,11 +43,11 @@ Drupal.behaviors.gameguyz_cropimage = {
             //var coord_prefix_id = id.substring(0, self_id.indexOf('-fid')) + '-crop';
             var coord_prefix_id = id + '-crop';
             jQuery('#' + coord_prefix_id + '-x').val(c.x);
-					  jQuery('#' + coord_prefix_id + '-y').val(c.y);
-					  jQuery('#' + coord_prefix_id + '-x2').val(c.x2);
-					  jQuery('#' + coord_prefix_id + '-y2').val(c.y2);
-					  jQuery('#' + coord_prefix_id + '-w').val(c.w);
-					  jQuery('#' + coord_prefix_id + '-h').val(c.h);
+            jQuery('#' + coord_prefix_id + '-y').val(c.y);
+            jQuery('#' + coord_prefix_id + '-x2').val(c.x2);
+            jQuery('#' + coord_prefix_id + '-y2').val(c.y2);
+            jQuery('#' + coord_prefix_id + '-w').val(c.w);
+            jQuery('#' + coord_prefix_id + '-h').val(c.h);
           },
           onSelect: function(c) {
             this.onChange(c);
@@ -55,7 +55,7 @@ Drupal.behaviors.gameguyz_cropimage = {
           aspectRatio: settings.gameguyz_cropimage[id].box.ratio,
           boxWidth: settings.gameguyz_cropimage[id].box.box_width,
           boxHeight: settings.gameguyz_cropimage[id].box.box_height,
-          minSize: [Drupal.settings.gameguyz_cropimage[id].minimum.width, 
+          minSize: [Drupal.settings.gameguyz_cropimage[id].minimum.width,
                   Drupal.settings.gameguyz_cropimage[id].minimum.height],
           /*
            * Setting the select here calls onChange event, and we lose the original image visibility

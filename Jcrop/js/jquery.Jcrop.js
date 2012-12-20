@@ -265,7 +265,8 @@
         }
 
         // Magic %-)
-        if (xx > x1) { // right side
+        if (xx > x1) {
+          // right side
           if (xx - x1 < min_x) {
             xx = x1 + min_x;
           } else if (xx - x1 > max_x) {
@@ -276,7 +277,8 @@
           } else {
             yy = y1 - (xx - x1) / aspect;
           }
-        } else if (xx < x1) { // left side
+        } else if (xx < x1) {
+          // left side
           if (x1 - xx < min_x) {
             xx = x1 - min_x
           } else if (x1 - xx > max_x) {
@@ -488,14 +490,8 @@
         var s = options.handleSize, o = hhs, h = s, w = s, t = o, l = o;
 
         switch(ord) {
-          case 'n':
-          case 's':
-            w = pct(100);
-            break;
-          case 'e':
-          case 'w':
-            h = pct(100);
-            break;
+          case 'n': case 's': w = pct(100); break;
+          case 'e': case 'w': h = pct(100); break;
         }
 
         return dragDiv(ord, hdep++).width(w).height(h).css({
